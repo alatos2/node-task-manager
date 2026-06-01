@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 
 const app = express();
@@ -11,6 +12,9 @@ app.get('/', (req, res) => {
         message: 'Task Manager API is running 🚀'
     })
 });
+
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes)
 
 const PORT = process.env.PORT || 4000;
 
