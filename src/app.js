@@ -14,11 +14,9 @@ app.get('/', (req, res) => {
     })
 });
 
-const authRoutes = require('./routes/authRoutes');
-app.use('/api/auth', authRoutes)
-
-const taskRoutes = require('./routes/taskRoutes');
-app.use('/api/tasks', taskRoutes);
+const v1Routes = require('./routes/v1/index')
+app.use('/api/v1', v1Routes)
+// app.use('/api/v2', v2Routes)  // 👈 v1 still works for old clients
 
 // global error handler
 app.use(errorHandler)

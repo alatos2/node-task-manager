@@ -24,10 +24,30 @@ const createTask = async (req, res, next) => {
 const getTasks = async (req, res, next) => {
     try {
         const {userId} = req.user;
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 10
 
-        const tasks = await prisma.task.findMany({where: {userId: userId}});
+        const skip = (page - 1) * limit
 
-        return res.status(200).json({data: tasks});
+        const total = await prisma.task.count({ where: { userId } })
+        const totalPages = Math.ceil(total / limit)
+
+        const tasks = await prisma.task.findMany({
+            where: {userId: userId},
+            take: limit,
+            skip: skip
+        });
+
+        return res.status(200).json({
+            data: tasks,
+            meta: {
+                total,
+                page,
+                limit,
+                totalPages,// 👈 how would you calculate total pages from total and limit?
+                hasNextPage: page < totalPages,// 👈 is there a next page?
+                hasPrevPage: page > 1// 👈 is there a previous page?
+            }});
     } catch (err) {
         next(err)
     }

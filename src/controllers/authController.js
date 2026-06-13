@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const prisma = require('../config/prisma');
+require('dotenv').config();
 
 const register = async (req, res, next) => {
     try {

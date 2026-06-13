@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const {protect} = require('../middleware/authMiddleware');
+const {protect} = require('../../middleware/authMiddleware');
 const {
     createTask,
     getTasks,
     updateTask,
     deleteTask
-} = require('../controllers/taskController');
+} = require('../../controllers/taskController');
 
-const {validate} = require('../middleware/validateMiddleware')
-const {createTaskValidator, updateTaskValidator} = require('../validators/taskValidator')
+const {validate} = require('../../middleware/validateMiddleware')
+const {createTaskValidator, updateTaskValidator} = require('../../validators/taskValidator')
 
 router.post('/', protect, validate(createTaskValidator), createTask);
 router.get('/', protect, getTasks);
