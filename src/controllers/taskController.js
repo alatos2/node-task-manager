@@ -59,7 +59,7 @@ const deleteTask = async (req, res, next) => {
 
         await prisma.task.delete({where: {id: parseInt(id)}});
 
-        return res.status(200).json({message: 'Task successfully deleted'});
+        return res.status(200).json({message: 'Task deleted successfully'});
     } catch (err) {
         next(err)
     }
@@ -74,8 +74,8 @@ const updateTask = async (req, res, next) => {
         const task = await prisma.task.update({
             where: {id: parseInt(id)},
             data: {
-                title: title,
-                description: description
+                ...(title !== undefined && { title }),
+                ...(description !== undefined && { description })
             }
         });
 

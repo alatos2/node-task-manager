@@ -4,9 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/app",
-    "start": "node src/app"
+    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/__tests__/**/*.test.js"],
+    "setupFilesAfterEnv": ["./src/__tests__/setup.js"],
+    "testTimeout": 30000
   },
   "keywords": [],
   "author": "",
@@ -16,6 +22,7 @@
     "@prisma/adapter-mariadb": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "bcryptjs": "^3.0.3",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
@@ -24,6 +31,8 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "jest": "^30.4.2",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
   }
 }

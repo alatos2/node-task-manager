@@ -3,11 +3,13 @@ const jwt = require('jsonwebtoken');
 const prisma = require('../config/prisma');
 require('dotenv').config();
 
+const SALT_ROUNDS = process.env.NODE_ENV === 'test' ? 1 : 10
+
 const register = async (req, res, next) => {
     try {
         const {name, email, password} = req.body;
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
         const existing = await prisma.user.findUnique({ where: { email } })
 
@@ -46,7 +48,7 @@ const login = async (req, res, next) => {
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status('401').json({message: 'Invalid credentials'});
+            return res.status(401).json({message: 'Invalid credentials'});
         }
 
         // generate JWT token

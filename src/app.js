@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const {errorHandler} = require('./middleware/errorMiddleware')
 
@@ -21,8 +20,4 @@ app.use('/api/v1', v1Routes)
 // global error handler
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 4000;
-
-app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`);
-})
+module.exports = app;
