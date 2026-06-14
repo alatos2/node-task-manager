@@ -1,5 +1,6 @@
 const express = require('express');
 const {errorHandler} = require('./middleware/errorMiddleware')
+const {apiLimiter} = require('./middleware/rateLimitMiddleware')
 
 const app = express();
 
@@ -12,6 +13,9 @@ app.get('/', (req, res) => {
         message: 'Task Manager API is running 🚀'
     })
 });
+
+// Applying rate limiting to all api routes
+app.use('/api', apiLimiter)
 
 const v1Routes = require('./routes/v1/index')
 app.use('/api/v1', v1Routes)
